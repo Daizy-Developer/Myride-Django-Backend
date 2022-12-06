@@ -1,0 +1,83 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+
+
+}
+
+.container {
+    margin: 5%;
+    height: 80vh;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+
+}
+
+.map {
+    margin: 1% 2%;
+
+    background-color: lightskyblue;
+    color: black;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+
+}
+
+.heading {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(255, 191, 0);
+    color: black;
+    margin: 1% 2%;
+    padding: 5%;
+}
+
+.drivers-in-area {
+
+    background-color: slateblue;
+
+
+}
+
+.Drivers-Card {
+
+    display: flex;
+
+
+}
+
+.driver-img {
+    height: 50px;
+    /* border-style: groove; */
+    border-radius: 100%;
+    margin: 1%;
+}
+
+.name {
+    align-self: center;
+    color: white;
+}
+
+.name:hover {
+    color: black;
+}
+
+.name div {
+    font-size: x-small;
+}
+
+.Drivers-Card:hover {
+
+    background-color: skyblue;
+    margin: 1% 2%;
+}
+
+.Drivers-Card>.name:hover {
+    align-self: center;
+    color: black;
+}

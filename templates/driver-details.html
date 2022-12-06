@@ -1,0 +1,193 @@
+{%extends 'basic.html'%}
+{%block title%}{{driver_profile.first_name}}{%endblock%}
+{% block head %}
+<style>
+  .flex{
+    display:flex;
+  }
+
+</style>
+{% endblock head %}
+{% block body %}
+{% comment %}
+<div class="container flex flex-wrap">
+     <div class="img">
+      <img  src="/media/{{driver_profile.driver_image}}" class="h-60 w-52 mx-7" alt="" srcset="">
+    </div> 
+    
+    <div class="img">
+      <img  src="/media/{{driver_profile.driver_image}}" class="mx-7" style="height:30rem;" alt="" srcset="">
+
+
+    </div>
+    <div class="details  m-2 flex flex-wrap">
+      <div class="personel mx-7 justify-evenly">
+        <h3 class="text-5xl">Personel Info</h3>
+        <ul>
+          <li>Name  - {{driver_profile.first_name}} {{driver_profile.last_name}}</li>
+          <li> DOB - {{driver_profile.date_of_birth}} </li>
+          <li> Gender - {{driver_profile.gender}}</li>
+          <li> Phone -{{driver_profile.phone_number}}</li>
+        </ul>
+      </div>
+      <div class="car mx-7">
+        <h3 class="text-5xl">Vehicle Info</h3>
+        <ul>
+          <li> Vehicle Name -{{driver_profile.vehicle_name}}</li>
+          <li>Vehicle No - {{driver_profile.vehicle_no}}</li>
+          <li>  Liscense No - {{driver_profile.license_no}}</li>
+          <li> Insurance No -</li>
+        </ul>
+        
+      </div>
+      <div class="other mx-7">
+        <h3 class="text-5xl ">Other Info</h3>
+        <ul>
+          <li> Earnings - {{driver_profile.earnings}}</li>
+          <li> Total Rides  - {{driver_profile.all_rides}}</li>
+          
+        </ul>
+        
+        
+      </div>
+      
+    </div>
+    
+    
+  </div> {% endcomment %}
+  {%if user.is_authenticated%}
+
+  <div class="container">
+    <div class="flex">
+      
+    </div>
+    <h2 style="text-align:center">{{driver_profile.first_name}} {{driver_profile.last_name}} Details</h2>
+  </div> 
+  
+  
+  
+</div>
+</div>
+<div class="container w-75 mt-5 mb-5 d-flex justify-content-center">
+  <div class="card px-1 py-4  w-75">
+    <div class="flex justify-content-center m-3">
+      <img src="/media/{{driver_profile.driver_image}}" height="200" width="200">
+      
+      
+    </div>
+    
+    
+      <form action="" method="post">
+        {% csrf_token %}
+
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="firstname">First Name</label>
+                      <div class="input-group">
+                         <input class="form-control"  name="firstname" id="firstname" type="text" placeholder="Name" value="{{ driver_profile.first_name }}" </div>
+                  </div>
+              </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="firstname">Last Name</label>
+                      <div class="input-group">
+                         <input class="form-control" name="lastname" id="lastname" type="text" placeholder="Name" value="{{driver_profile.last_name}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="DOB">DOB</label>
+                      <div class="input-group">
+                        <input class="form-control" id="DOB" name="DOB" type="text" placeholder="DOB" value="{{driver_profile.date_of_birth}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    
+                    <label for="gender">Gender</label>
+                      <div class="input-group">
+                         <input class="form-control" id="gender" name="gender" type="text" placeholder="gender" value="{{driver_profile.gender}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="phone">Phone</label>
+                      <div class="input-group">
+                        <input class="form-control" name="phone" id="phone" type="text" placeholder="Phone" value="{{driver_profile.phone_number}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="vehicle_name">Vehicle name</label>
+                      <div class="input-group">
+                        <input class="form-control" name="vehicle_name" id="vehicle_name" type="text" placeholder="Vehicle name"value="{{driver_profile.vehicle_name}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="vehicle_no">Vehicle no</label>
+                      <div class="input-group">
+                        <input class="form-control" id="vehicle_no" name="vehicle_no" type="text" placeholder="vehicle no"value="{{driver_profile.vehicle_no}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="Liscense">Liscense</label>
+                      <div class="input-group"> <input class="form-control" id="Liscense" name="Liscense" type="text" placeholder="Liscense"value="{{driver_profile.license_no}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="insurance">Insurance</label>
+                      <div class="input-group"> <input name="insurance" id="insurance" class="form-control" type="text" placeholder="Insurance"value="{{driver_profile.insurance_no}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="earnings">Earnings</label>
+                      <div class="input-group"> <input id="earnings" name="earnings" class="form-control" type="text" placeholder="Earnings" value="{{driver_profile.earnings}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="rides">Total Rides</label>
+                      <div class="input-group"> <input class="form-control" name="rides" id="rides" type="text" placeholder="total_rides" value="{{driver_profile.total_rides}}"> </div>
+                  </div>
+              </div>
+          </div>
+          <a href="driver-details/<int:id>/">
+          <button class="btn btn-primary btn-block confirm-button w-100">Save</button></a>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+  </div> 
+</div>
+</form>
+{% else %}
+  <h1 class="font-extrabold">400 Bad Request </h1>
+  {%endif%}
+{% endblock body %}
+
