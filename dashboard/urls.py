@@ -8,7 +8,6 @@ urlpatterns = [
   
     path("user" ,views.user),
     path("driver-details/<int:id>/" ,views.driver_detailss),
-    path('promocode',views.promocode),
     path('Ride-logs',views.ride_logs),
     path('logout',views.USR_Logout),
     
@@ -25,8 +24,8 @@ urlpatterns = [
     path('user_api_patch/<int:pk>/',views.user_patch),#PATCH
  
     # Promocode 
-    path('promocode/<str:Promocode>',views.promocode_api,name="Promocode Api"),
-    path('add-promocode/',views.add_promocode,name="Promocode Api "),
+    # path('promocode/<str:Promocode>',views.promocode_api,name="Promocode Api"),
+    # path('add-promocode/',views.add_promocode,name="Promocode Api "),
     path('ride_history/<str:User_Uid>',views.Ride_History, name="Ride_History"),
     path('ride_history/driver/<str:Driver_Uid>',views.Driver_Ride_History, name="Ride_History"),
     # path('new-ride',views.New_Ride, name="New Ride"),
@@ -34,8 +33,11 @@ urlpatterns = [
     path("User-ratings/<int:id>",views.User_Ratings, name="Driver-ratings"),
     path("status/<int:id>",views.Trip_Status),
     path("Cancellation-Reason/<int:id>",views.Cancellation_Reason),
-    path("Fare/<int:Km>",views.Get_Fare),
-    path("Update_Fare/<int:id>/<int:Km>/",views.Update_Fare),
+    path("Mini_Fare/<int:Km>",views.Get_Mini_Fare),
+    path("Luxury_Fare/<int:Km>",views.Get_Luxury_Fare),
+    path("Ac_Fare/<int:Km>",views.Get_Ac_Fare),
+    path("Bike_Fare/<int:Km>",views.Get_Bike_Fare),
+    path("Update_Fare/<int:id>/<str:Car>/<int:Km>/",views.Update_Fare),
     path("Kms/<int:id>",views.Km),
     path('bike-ride',views.Bike_Ride, name="New Ride"),
     path('car-ride',views.Car_Ride, name="New Ride"),

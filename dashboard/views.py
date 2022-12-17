@@ -15,18 +15,41 @@ from dashboard.serializer import Driver_Rating_Serializer, Driver_Serializer,Use
 import json
 # Create your views here.
 from django.shortcuts import render
-# fare = 65
+luxury_fare = 12
+mini_fare = 6
+ac_fare = 8
+bike_fare = 4
 def update_fare(request):
         # user = User.objects.all()
-    upt_fare =request.GET.get('Luxury_Fare')
-    print(upt_fare)
-    global fare 
-    fare =  upt_fare
-    return render(request,"fare.html",{"fare":fare})
+    global luxury_fare,mini_fare,ac_fare,bike_fare
+    bef_luxury_fare = luxury_fare
+    bef_mini_fare = mini_fare
+    bef_ac_fare = ac_fare
+    bef_bike_fare = bike_fare
+    # ac_fare =request.GET.get('Mini_Fare')
+    # bike_fare =request.GET.get('Mini_Fare')
+    upt_mini_fare =request.GET.get('Mini_Fare')
+    upt_luxury_fare =request.GET.get('Luxury_Fare')
+    upt_ac_fare =request.GET.get('Ac_Fare')
+    upt_bike_fare =request.GET.get('Bike_Fare')
+    print(upt_mini_fare)
+    mini_fare =  upt_mini_fare
+    luxury_fare =  upt_luxury_fare
+    ac_fare =  upt_ac_fare
+    bike_fare =  upt_bike_fare
+    if mini_fare is None:
+        mini_fare = bef_mini_fare
+    if luxury_fare is None:
+        luxury_fare = bef_luxury_fare
+    if ac_fare is None:
+        ac_fare = bef_ac_fare
+    if bike_fare is None:
+        bike_fare = bef_bike_fare
+    return render(request,"fare.html",{"mini_fare":mini_fare,"luxury_fare":luxury_fare,"ac_fare":ac_fare,"bike_fare":bike_fare})
 
 def fare_management(request):
 
-    return render(request,"fare.html",{"fare":fare})
+    return render(request,"fare.html",{"mini_fare":mini_fare,"luxury_ride":luxury_fare,"ac_fare":ac_fare,"bike_fare":bike_fare})
 def index(request):
     driver_details = Driver.objects.all()
     app_users = User.objects.all()
@@ -63,9 +86,7 @@ def user(request):
 def driver_detailss(request ,id):
     driver_profile = Driver.objects.filter(id=id)
     return render(request,'driver-details.html',{'driver_profile':driver_profile[0]})
-def promocode(request):
-    coupon = Promo_Code.objects.all()
-    return render(request , "promocode.html",{'coupons':coupon})
+
 def ride_logs(request):
     ride_log = All_Ride_Historie.objects.all()
     return render(request ,'ride-history.html',{'ride':ride_log})
@@ -199,23 +220,7 @@ def user_patch(request,pk):
 
 # Promocode 
 
-@api_view(['GET'])
-def promocode_api(request,Promocode):
 
-    if request.method == 'GET':
-        Promo = Promo_Code.objects.filter(Promocode=Promocode)
-        serializer = Promocode_Serializer(Promo, many=True)
-
-        return Response(serializer.data)
-
-@api_view(['POST'])
-def add_promocode(request):
-    if request.method == 'POST':
-        serializer = Promocode_Serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # @api_view()
 
 # User Trip History.
@@ -227,18 +232,10 @@ def Ride_History(request,User_Uid):
 
     except All_Ride_Historie.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
     if request.method == 'GET':
-        STATUS = Passenger.values_list('status')
-        STATUS = [item for t in STATUS for item in t]
-
-        print(STATUS)
-
-        if STATUS == 'ENDED':
-            serializer = All_Ride_Historie_Serializer(Passenger, many=True)
-            return Response(serializer.data)
-        return Response(None)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+        user= All_Ride_Historie.objects.filter(User_Uid=User_Uid)
+        serializer = All_Ride_Historie_Serializer(user, many=True)
+        return Response(serializer.data)
 
 # Driver Ride History
 @api_view(['GET'])
@@ -332,11 +329,42 @@ def Cancellation_Reason(request,id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
 @api_view([ 'GET'])
-def Get_Fare(request,Km):
+def Get_Mini_Fare(request,Km):
     try:
         # snippet = All_Ride_Historie.objects.filter(otp=otp,Date=Date).first()
-        Kilometre = Km*int(fare)
+        Kilometre = Km*int(mini_fare)
+    except All_Ride_Historie.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        return Response(Kilometre)
+
+@api_view([ 'GET'])
+def Get_Luxury_Fare(request,Km):
+    try:
+        # snippet = All_Ride_Historie.objects.filter(otp=otp,Date=Date).first()
+        Kilometre = Km*int(luxury_fare)
+    except All_Ride_Historie.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        return Response(Kilometre)
+
+@api_view([ 'GET'])
+def Get_Ac_Fare(request,Km):
+    try:
+        # snippet = All_Ride_Historie.objects.filter(otp=otp,Date=Date).first()
+        Kilometre = Km*int(ac_fare)
+    except All_Ride_Historie.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        return Response(Kilometre)
+@api_view([ 'GET'])
+def Get_Bike_Fare(request,Km):
+    try:
+        # snippet = All_Ride_Historie.objects.filter(otp=otp,Date=Date).first()
+        Kilometre = Km*int(bike_fare)
     except All_Ride_Historie.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
@@ -344,10 +372,19 @@ def Get_Fare(request,Km):
 
 
 @api_view([ 'PATCH'])
-def Update_Fare(request,id,Km):
+def Update_Fare(request,id,Car,Km):
     try:
         snippet = All_Ride_Historie.objects.get(id=id)
-        Kilometre = Km*int(fare)
+        if Car == "Luxury":
+            Kilometre = Km*int(luxury_fare)
+        elif Car == "Ride Mini":
+            Kilometre = Km*int(mini_fare)
+        elif Car == "Ride AC":
+            Kilometre = Km*int(ac_fare)
+        elif Car == "Bike":
+            Kilometre = Km*int(bike_fare)
+        else:return Response(status=status.HTTP_404_NOT_FOUND)
+
     except All_Ride_Historie.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
@@ -499,9 +536,13 @@ def Bike_Ride(request):
 @api_view(['POST'])
 def New_Ride(request,vehicle):
     if request.method == 'POST':
-        if vehicle=='car':
+        if vehicle=='Luxury':
             serializer = Ride_Car_Serializer(data=request.data)
-        elif vehicle=='bike':
+        elif vehicle=='Ride Mini':
+            serializer = Ride_Car_Serializer(data=request.data)
+        elif vehicle=='Ride AC':
+            serializer = Ride_Car_Serializer(data=request.data)
+        elif vehicle=='Bike':
             serializer = Ride_Bike_Serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -542,7 +583,7 @@ def Driver_Ride_Message(request,Ride_id):
         return Response(driver_serializer.data)
 
 @api_view(['GET'])
-def User_Specific_Message(request,Ride_id):
+def User_Specific_Message(request,id):
     try:
         Ride_id_User= User_Message.objects.get(id=id) 
     except:

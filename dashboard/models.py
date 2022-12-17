@@ -68,8 +68,8 @@ class User(models.Model):
     ratings = models.DecimalField(default=0.0,decimal_places = 2,max_digits=3)
     total_rides = models.IntegerField(blank=True , null=True)
    # work_address = models.CharField(max_length=400)
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
 
 
 
