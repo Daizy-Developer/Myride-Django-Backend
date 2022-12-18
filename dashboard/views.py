@@ -622,3 +622,29 @@ def DriverMessage(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view([ 'GET'])
+def Location(request,id,pickup_location_lat,pickup_location_long,drop_location_lat,drop_location_long):
+    try:
+        Ride= All_Ride_Historie.objects.get(id=id)
+        pickup_location_lat = float(pickup_location_lat)
+        pickup_location_long = float(pickup_location_long)
+        drop_location_lat = float(drop_location_lat)
+        drop_location_long = float(drop_location_long)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'GET':
+        pool_coords_1 = (pickup_location_lat, pickup_location_long)
+        pool_coords_2 = (drop_location_lat, drop_location_long)
+        POOL_KM =geopy.distance.geodesic(pool_coords_1, pool_coords_2).km
+        Ride_Coords_1 = (Ride.pickup_location_lat,Ride.pickup_location_long)
+        Ride_Coords_2 = (Ride.drop_location_lat,Ride.drop_location_long)
+        RIDE_KM = geopy.distance.geodesic(Ride_Coords_1, Ride_Coords_2).km
+        print(POOL_KM)
+        print(RIDE_KM)
+        if POOL_KM <=RIDE_KM+1:
+            location_encode =polyline.encode([(pickup_location_lat,pickup_location_long),(drop_location_lat,drop_location_long)])
+            location_decode = polyline.decode(location_encode)
+            return Response(location_decode)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
