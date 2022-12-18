@@ -55,5 +55,7 @@ urlpatterns = [
     path('Driver-Specific-Message/<int:id>',views.Driver_Specific_Message),
     path('Driver-Message',views.DriverMessage),
     path('User-Message',views.UserMessage),
+    path("Location/<int:id>/<str:pickup_location_lat>/<str:pickup_location_long>/<str:drop_location_lat>/<str:drop_location_long>",views.Location),
+
 
     ]
