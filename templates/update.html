@@ -1,0 +1,127 @@
+{%extends 'basic.html'%}
+{%block title%}{{driver_profile.first_name}}{%endblock%}
+{% block head %}
+<style>
+  .flex{
+    display:flex;
+  }
+
+</style>
+{% endblock head %}
+{% block body %}
+{% comment %}
+ {% endcomment %}
+  {%if user.is_authenticated%}
+
+  <div class="container">
+    <div class="flex">
+      
+    </div>
+    <h2 style="text-align:center">{{driver_profile.name}} Details</h2>
+  </div> 
+  
+  
+  
+</div>
+</div>
+<div class="container w-75 mt-5 mb-5 d-flex justify-content-center">
+  <div class="card px-1 py-4  w-75">
+    <div class="flex justify-content-center m-3">
+      <img src="/media/{{driver_profile.driver_image}}" height="200" width="200">
+      
+      
+    </div>
+    
+    
+<form action="" method="post">
+        {% csrf_token %}
+
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="name"> Name</label>
+                      <div class="input-group">
+                        {{ form.name }}
+                  </div>
+              </div>
+          
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="DOB">DOB</label>
+                      <div class="input-group">
+                        {{form.date_of_birth}} </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    
+                    <label for="gender">Gender</label>
+                      <div class="input-group">
+                        {{form.gender}}</div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="phone">Phone</label>
+                      <div class="input-group">
+                        {{form.phone_number}} </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="vehicle_name">Vehicle name</label>
+                      <div class="input-group">
+                        {{form.vehicle_name}} </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="vehicle_no">Vehicle no</label>
+                      <div class="input-group">
+                        {{form.vehicle_no}} </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="Liscense">Liscense</label>
+                    {{form.license_no}} </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="insurance">Insurance</label>
+                    {{form.insurance_no}} </div>
+                  </div>
+              </div>
+          </div>
+
+        
+          <button class="btn btn-primary btn-block confirm-button w-100">Save</button>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+  </div> 
+</div>
+</form>
+
+{% else %}
+  <h1 class="font-extrabold">400 Bad Request </h1>
+  {%endif%}
+{% endblock body %}
+
