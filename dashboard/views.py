@@ -49,7 +49,7 @@ def update_fare(request):
 
 def fare_management(request):
 
-    return render(request,"fare.html",{"mini_fare":mini_fare,"luxury_ride":luxury_fare,"ac_fare":ac_fare,"bike_fare":bike_fare})
+    return render(request,"fare.html",{"mini_fare":mini_fare,"luxury_fare":luxury_fare,"ac_fare":ac_fare,"bike_fare":bike_fare})
 def index(request):
     driver_details = Driver.objects.all()
     app_users = User.objects.all()
