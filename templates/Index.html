@@ -62,7 +62,19 @@
         </a>
 
       </li>
-     
+      <li class="has-subnav">
+        <a href="/promocode">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="2em" width="2em" class=" fa-2x fa bi-people bi-card-checklist" viewBox="0 0 16 16">
+            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+            <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+          </svg>
+          
+          <span class="nav-text">
+            Promocodes
+          </span>
+        </a>
+
+      </li>
       <li class="has-subnav">
         <a href="/Ride-logs">
           <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="fa-2x fa  bi-journal-bookmark" viewBox="0 0 16 16">
@@ -109,13 +121,13 @@
         <thead>
             <tr>
              
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
+              <th scope="col">Name</th>
               <th scope="col">Date Of Birth</th>
               <th scope="col">Gender</th>
               <th scope="col">Phone Number</th>
               <th scope="col">Home Address</th>
-              <th scope="col">Work Address</th>
+              <th scope="col"><i>Actions</i></th>
+            
             </tr>
           </thead>
           <tbody>
@@ -123,11 +135,9 @@
             <tr>
          
               <td class=" ">
-                {{i.first_name}}
+                {{i.name}}
               </td>
-              <td class="">
-                {{i.last_name}} 
-              </td>
+              
               <td class="">
                 {{i.date_of_birth}} 
               </td>
@@ -141,7 +151,7 @@
                 {{i.home_address}} 
               </td>
               <td class=""> 
-                {{i.work_address}} 
+                <a href="/user-details/{{i.id}}">View-Details</a>
               </td>
             </tr>
             {% endfor %}
