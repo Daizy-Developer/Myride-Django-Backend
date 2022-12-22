@@ -10,6 +10,8 @@ urlpatterns = [
     path("driver-details/<int:id>/" ,views.driver_detailss),
     path('Ride-logs',views.ride_logs),
     path('logout',views.USR_Logout),
+    path('update_driver/<int:id>',views.updatedriver),
+    path('user-details/<int:id>',views.updateuser),
     
     # Api's
     # Driver's Api Urls
