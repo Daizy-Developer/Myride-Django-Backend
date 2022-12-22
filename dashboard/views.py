@@ -12,7 +12,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from dashboard.serializer import Driver_Rating_Serializer, Driver_Serializer,User_Serializer,Promocode_Serializer,User_Rating_Serializer,Driver_Rating_Serializer,All_Ride_Historie_Serializer,Status_Ride_Serializer,Cancel_Ride_Serializer,Fare_S,Km_S,Ride_Bike_Serializer,Ride_Car_Serializer,Offer_Price_Get ,Offer_Price_Post,Add_Carpool_Serializer,Driver_Offer_Serializer,User_Img,Driver_Details_Serializer,Delivery_Serailizer,User_Message,Driver_Message,User_Messages_Serializer,Driver_Messages_Serializer
-import json
+from  dashboard.forms import DriverForms,UserForms
 # Create your views here.
 from django.shortcuts import render
 luxury_fare = 12
@@ -86,7 +86,22 @@ def user(request):
 def driver_detailss(request ,id):
     driver_profile = Driver.objects.filter(id=id)
     return render(request,'driver-details.html',{'driver_profile':driver_profile[0]})
+def updatedriver(request ,id):
+    driver_profile = Driver.objects.get(pk=id)
+    form =  DriverForms(request.POST or None,instance=driver_profile )
 
+    if form.is_valid():
+        form.save()
+        return redirect('/')
+    return render(request,'update.html',{'driver_profile':driver_profile,'form':form})
+
+def updateuser(request ,id):
+    user_profile = User.objects.get(pk=id)
+    form =  UserForms(request.POST or None,instance=user_profile )
+    if form.is_valid():
+        form.save()
+        return redirect('/')
+    return render(request,'user-details.html',{'user_profile':user_profile,"form":form})
 def ride_logs(request):
     ride_log = All_Ride_Historie.objects.all()
     return render(request ,'ride-history.html',{'ride':ride_log})
