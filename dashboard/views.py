@@ -5,6 +5,7 @@ from django.shortcuts import render,redirect,HttpResponse
 # from itsdangerous import Serializer
 from dashboard.models import Driver, User ,Promo_Code,All_Ride_Historie,Ride_offer,Driver_offer
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
 # import requests
 # Modules For Crating Api
 from rest_framework import status
@@ -13,6 +14,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from dashboard.serializer import Driver_Rating_Serializer, Driver_Serializer,User_Serializer,Promocode_Serializer,User_Rating_Serializer,Driver_Rating_Serializer,All_Ride_Historie_Serializer,Status_Ride_Serializer,Cancel_Ride_Serializer,Fare_S,Km_S,Ride_Bike_Serializer,Ride_Car_Serializer,Offer_Price_Get ,Offer_Price_Post,Add_Carpool_Serializer,Driver_Offer_Serializer,User_Img,Driver_Details_Serializer,Delivery_Serailizer,User_Message,Driver_Message,User_Messages_Serializer,Driver_Messages_Serializer
 from  dashboard.forms import DriverForms,UserForms
+import geopy.distance
+import polyline
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect
 # Create your views here.
 from django.shortcuts import render
 luxury_fare = 12
@@ -50,6 +55,9 @@ def update_fare(request):
 def fare_management(request):
 
     return render(request,"fare.html",{"mini_fare":mini_fare,"luxury_fare":luxury_fare,"ac_fare":ac_fare,"bike_fare":bike_fare})
+
+@ensure_csrf_cookie
+@csrf_protect
 def index(request):
     driver_details = Driver.objects.all()
     app_users = User.objects.all()
@@ -62,14 +70,14 @@ def index(request):
         USR = authenticate(username=USR_NAME,password= PASSWORD)
         if USR is not None:
             login(request,USR)
-
-            return render(request,'dashboard.html',{'app_users':app_users,'app_driver':app_driver})
+            return render(request,'dashboard.html',{'app_users':app_users,'app_driver':app_driver ,'driver':driver_details})
             
     
     if request.user.is_authenticated:
             return render(request,'dashboard.html',{'app_users':app_users,'app_driver':app_driver ,'driver':driver_details}) 
  
     return render(request,'user/user.html')
+
 def USR_Logout(request):
     logout(request)
     return redirect('/')
@@ -423,25 +431,45 @@ def Ride_Offer_Get(request,User_Uid,Date,Ride_Time):
         # return Response(Km*6)
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-@api_view([ 'POST'])
-def Ride_Offer_Post(request,User_Uid,Date,Ride_Time):
-    try:
-        snippet = Ride_offer.objects.filter(Date,Ride_Time,User_Uid=User_Uid,).first()
-    except Ride_offer.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'GET':
-        serializer = Offer_Price_Get(snippet)
-        # return Response(Km*6)
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-@api_view([ 'POST'])
-def Ride_Offer_Post(request):
+#@api_view([ 'POST'])
+@api_view(['POST'])
+def Driver_Ride_Offer_Post(request, Ride_id,UId,Offer):
     if request.method == 'POST':
-        serializer = Offer_Price_Post(data=request.data)
+        Ride_Driver = Driver.objects.filter(UId=UId).first()
+        Ride = All_Ride_Historie.objects.filter(id=Ride_id).first()
+        serializer = Driver_Offer_Serializer(data={
+            "Ride_id": Ride_id,
+            "Driver_Uid": UId,
+            "pickup_location_lat": Ride.pickup_location_lat,
+            "pickup_location_long": Ride.pickup_location_long,
+            "drop_location_lat": Ride.drop_location_lat,
+            "drop_location_long": Ride.drop_location_long,
+            "Address": Ride.Address,
+            "Drop_Address": Ride.  Drop_Address,
+            "drop_location_long": Ride.drop_location_long,
+            "Driver_offer": Offer,
+            "Date": Ride.Date,
+            "Ride_Time": Ride.Ride_Time,
+            "name":Ride_Driver.name,
+            "phone_number":Ride_Driver.phone_number,
+            "date_of_birth":Ride_Driver.date_of_birth,
+            "gender":Ride_Driver.gender,
+            "vehicle_no":Ride_Driver.vehicle_no,
+            "vehicle_name":Ride_Driver.vehicle_name,
+            "license_no":Ride_Driver.license_no,
+            "insurance_no":Ride_Driver.insurance_no,
+            "ratings":Ride_Driver.ratings,
+            "Carpooling_User_1_Uid":Ride.Carpooling_User_1_Uid,
+            "Carpooling_User_2_Uid":Ride.Carpooling_User_2_Uid,
+            "Carpooling_User_3_Uid":Ride.Carpooling_User_3_Uid,
+
+
+            })
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def Bike_Ride(request):
@@ -502,17 +530,6 @@ def Driver_Ride_Offer_Get(request,Ride_id):
         serializer = Driver_Offer_Serializer(snippet,many=True)
         # return Response(Km*6)
         return Response(serializer.data)
-
-@api_view([ 'POST'])
-def Driver_Ride_Offer_Post(request):
-    if request.method == 'POST':
-        serializer = Driver_Offer_Serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view([ 'GET','PATCH'])
 def Ride_Details(request,id):
@@ -663,3 +680,12 @@ def Location(request,id,pickup_location_lat,pickup_location_long,drop_location_l
             location_decode = polyline.decode(location_encode)
             return Response(location_decode)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def customer_lists(request):
+    if request.method == 'GET':
+        lists= All_Ride_Historie.objects.filter(status="BOOKED")
+        serializer = All_Ride_Historie_Serializer(lists,many=True)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    

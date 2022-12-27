@@ -44,9 +44,10 @@ urlpatterns = [
     path('bike-ride',views.Bike_Ride, name="New Ride"),
     path('car-ride',views.Car_Ride, name="New Ride"),
     path("offer_ride_get/<str:User_Uid>/<str:Date>/<str:Ride_Time>",views.Ride_Offer_Get),
-    path("offer_ride_post/",views.Ride_Offer_Post),
+    path("driver_offer_ride/<int:Ride_id>/<str:UId>/<int:Offer>/",views.Driver_Ride_Offer_Post),
     path("driver_offer_ride/<int:Ride_id>",views.Driver_Ride_Offer_Get),
-    path("driver_offer_ride",views.Driver_Ride_Offer_Post),
+
+    #path("driver_offer_ride",views.Driver_Ride_Offer_Post),
     path("add_carpool/<int:id>",views.Add_Carpool_Ride),
     path("Ride-Details/<int:id>",views.Ride_Details),
     path('new-ride/<str:vehicle>',views.New_Ride, name="New Ride"),
@@ -58,6 +59,7 @@ urlpatterns = [
     path('Driver-Message',views.DriverMessage),
     path('User-Message',views.UserMessage),
     path("Location/<int:id>/<str:pickup_location_lat>/<str:pickup_location_long>/<str:drop_location_lat>/<str:drop_location_long>",views.Location),
+    path('customer-list',  views.customer_lists),
 
 
     ]

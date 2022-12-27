@@ -8,6 +8,7 @@ GENDER_CHOICES = (
     ("OTHER","OTHER"),
     )
 STATUS_CHOICES = (
+    ("BOOKED","BOOKED"),
     ("ARRIVED","ARRIVED"),
     ("ARRIVING","ARRIVING"),
     ("CANCELLED","CANCELLED"),
@@ -49,6 +50,7 @@ class Driver(models.Model ):
     license_no = models.CharField(max_length=10)
     insurance_no = models.CharField(max_length=10)
     earnings = models.IntegerField()
+    ratings = models.IntegerField(default=1,validators=[MaxValueValidator(5),MinValueValidator(1)])
     last_location_lat =models.DecimalField(max_digits = 40 ,decimal_places = 8)
     last_location_long = models.DecimalField(max_digits = 40 ,decimal_places = 8)
     current_location_lat = models.DecimalField(max_digits = 40 ,decimal_places = 8)
@@ -66,10 +68,11 @@ class User(models.Model):
     user_image = models.ImageField(upload_to="driver/images",null=True,blank=True,default="def_img.png")
     home_address = models.CharField(max_length=400)
     ratings = models.DecimalField(default=0.0,decimal_places = 2,max_digits=3)
+    
     total_rides = models.IntegerField(blank=True , null=True)
    # work_address = models.CharField(max_length=400)
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
 
 
 
@@ -94,12 +97,15 @@ class All_Ride_Historie(models.Model):
     pickup_location_long = models.DecimalField(max_digits = 40 ,decimal_places = 8)
     drop_location_lat =  models.DecimalField(max_digits = 40 ,decimal_places = 8)
     drop_location_long = models.DecimalField(max_digits = 40 ,decimal_places = 8)
+    Address = models.CharField(max_length=500)
+    Drop_Address = models.CharField(max_length=500)
+
     Km = models.IntegerField(default=1)
     Fare =  models.IntegerField()
     User_ratings = models.IntegerField(default=1,validators=[MaxValueValidator(5),MinValueValidator(1)])
     Driver_ratings = models.IntegerField(default=1,validators=[MaxValueValidator(5),MinValueValidator(1)])
     Cancel_Ride = models.CharField(max_length=50,choices = CANCELLATION_REASON,default = "NONE")
-    status = models.CharField(max_length = 20,choices = STATUS_CHOICES,default = "ARRIVED")
+    status = models.CharField(max_length = 20,choices = STATUS_CHOICES,default = "BOOKED")
 
     def __str__(self):
         # return "Passenger "+self.User_Detail.first_name# +" Driver "+self.Driver_Detail.first_name + " " +str(self.otp)+" "+ str(self.Date)
@@ -136,7 +142,9 @@ class Driver_offer(models.Model):
     license_no = models.CharField(max_length=10)
     insurance_no = models.CharField(max_length=10)
     Driver_offer = models.IntegerField()
-
+    ratings = models.IntegerField(default=1,validators=[MaxValueValidator(5),MinValueValidator(1)])
+    Address = models.CharField(max_length=500)
+    Drop_Address = models.CharField(max_length=500)
 class User_Message(models.Model):
     ride = models.ForeignKey(All_Ride_Historie,null=False,blank=False,on_delete=models.CASCADE)
     sender = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
