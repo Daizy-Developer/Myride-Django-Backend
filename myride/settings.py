@@ -39,7 +39,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -156,3 +156,25 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'  
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  
 
+
+
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "MYRIDE ADMIN",
+
+    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "MYRIDE ADMIN",
+
+    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_brand": "MYRIDE ADMIN",
+    "copyright": "Myride Ltd",
+ "topmenu_links": [
+
+        # external url that opens in a new window (Permissions can be added)
+        {"name": "Dashboard", "url": "/"},
+    ],
+
+}
+JAZZMIN_UI_TWEAKS = {
+    "theme": "simplex",
+}

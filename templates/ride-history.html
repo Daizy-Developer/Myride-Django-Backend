@@ -119,13 +119,15 @@
               <th scope="col">Fare</th>
               <th scope="col">User Rating</th>
               <th scope="col">Driver Rating</th>
-              <th scope="col">Cancel Ride</th>
+              <th scope="col">Cancellation Status</th>
               <th scope="col">Status</th>
+              <th scope="col">Edit</th>
               
             </tr>
           </thead>
           <tbody>
             {%for i in ride %}
+            
             <tr>
               
               <td class=" ">
@@ -165,8 +167,12 @@
               <td class="">
                 {{i.status}} 
               </td>
+              <td class="">
+                <a href="admin/dashboard/all_ride_historie/{{i.id}}/change/">Edit</a>
+              </td>
              
             </tr>
+            
             {% endfor %}
            
           </tbody>

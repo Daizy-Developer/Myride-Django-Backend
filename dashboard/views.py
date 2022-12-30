@@ -3,16 +3,15 @@ from os import rename
 from urllib import request, response
 from django.shortcuts import render,redirect,HttpResponse
 # from itsdangerous import Serializer
-from dashboard.models import Driver, User ,Promo_Code,All_Ride_Historie,Ride_offer,Driver_offer,Saved_Destination
+from dashboard.models import Driver, User,All_Ride_Historie,Ride_offer,Driver_offer,Saved_Destination,Earning
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 # import requests
 # Modules For Crating Api
 from rest_framework import status
-from rest_framework.generics import ListAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from dashboard.serializer import Saved_Destination_Serializer, Driver_Rating_Serializer, Driver_Serializer,User_Serializer,Promocode_Serializer,User_Rating_Serializer,Driver_Rating_Serializer,All_Ride_Historie_Serializer,Status_Ride_Serializer,Cancel_Ride_Serializer,Fare_S,Km_S,Ride_Bike_Serializer,Ride_Car_Serializer,Offer_Price_Get ,Offer_Price_Post,Add_Carpool_Serializer,Driver_Offer_Serializer,User_Img,Driver_Details_Serializer,Delivery_Serailizer,User_Message,Driver_Message,User_Messages_Serializer,Driver_Messages_Serializer,Add_Driver_Serializer,Add_Driver_Serializer
+from dashboard.serializer import Saved_Destination_Serializer, Driver_Rating_Serializer, Driver_Serializer,User_Serializer,User_Rating_Serializer,Driver_Rating_Serializer,All_Ride_Historie_Serializer,Status_Ride_Serializer,Cancel_Ride_Serializer,Fare_S,Km_S,Ride_Bike_Serializer,Ride_Car_Serializer,Offer_Price_Get ,Offer_Price_Post,Add_Carpool_Serializer,Driver_Offer_Serializer,Driver_Details_Serializer,Delivery_Serailizer,User_Message,Driver_Message,User_Messages_Serializer,Driver_Messages_Serializer,Add_Driver_Serializer,Add_Driver_Serializer ,Earning_Serializer
 from  dashboard.forms import DriverForms,UserForms
 import geopy.distance
 import polyline
@@ -730,3 +729,32 @@ def add_saved_destination(request):
             serializer.save()
             return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def Driver_Statastics(request,UId):
+    if request.method == 'GET':
+        driver_ = Driver.objects.filter(UId=UId).first()
+        earnings = Earning.objects.filter(driver=driver_)
+        serializer = Earning_Serializer(earnings,many=True)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def Driver_Earning(request,UId,date,earnings):
+    if request.method == 'POST':
+        driver_ = Driver.objects.filter(UId=UId).first()
+        driver_ = Driver.objects.filter(UId=UId).first()
+        driver_pk =  driver_.id
+        serializer = Earning_Serializer(data={
+            "date": date,
+            "earnings": earnings,
+            "driver":driver_pk
+        })
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    

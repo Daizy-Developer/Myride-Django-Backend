@@ -49,7 +49,7 @@ class Driver(models.Model ):
     vehicle_name = models.CharField(max_length=50,default='')
     license_no = models.CharField(max_length=10)
     insurance_no = models.CharField(max_length=10)
-    earnings = models.IntegerField()
+    # earnings = models.IntegerField()
     ratings = models.IntegerField(default=1,validators=[MaxValueValidator(5),MinValueValidator(1)])
     last_location_lat =models.DecimalField(max_digits = 40 ,decimal_places = 8)
     last_location_long = models.DecimalField(max_digits = 40 ,decimal_places = 8)
@@ -58,6 +58,11 @@ class Driver(models.Model ):
     def __str__(self):
         return self.name
         
+class Earning(models.Model):
+    driver = models.ForeignKey(Driver,on_delete=models.CASCADE)
+    date = models.DateField()
+    earnings = models.IntegerField()
+
 class User(models.Model):
     UId=  models.CharField(max_length=30 , blank=True , null=True )
 
@@ -73,7 +78,7 @@ class User(models.Model):
    # work_address = models.CharField(max_length=400)
     def __str__(self):
         return self.name
-
+    
 
 
 class All_Ride_Historie(models.Model):
@@ -111,7 +116,6 @@ class All_Ride_Historie(models.Model):
         # return "Passenger "+self.User_Detail.first_name# +" Driver "+self.Driver_Detail.first_name + " " +str(self.otp)+" "+ str(self.Date)
         return str(self.id)+" "+ str(self.Date)
 
-
 class Ride_offer(models.Model):
     User_Uid = models.CharField(max_length=100)
     Driver_Uid = models.CharField(max_length=100,null=True,blank=True)
@@ -147,6 +151,8 @@ class Driver_offer(models.Model):
     ratings = models.IntegerField(default=1,validators=[MaxValueValidator(5),MinValueValidator(1)])
     Address = models.CharField(max_length=500)
     Drop_Address = models.CharField(max_length=500)
+
+
 class User_Message(models.Model):
     ride = models.ForeignKey(All_Ride_Historie,null=False,blank=False,on_delete=models.CASCADE)
     sender = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
@@ -167,4 +173,5 @@ class Saved_Destination(models.Model):
     lat = models.DecimalField(max_digits = 40 ,decimal_places=8)
     long = models.DecimalField(max_digits = 40 ,decimal_places=8)
     address = models.CharField(max_length=400)
+
 

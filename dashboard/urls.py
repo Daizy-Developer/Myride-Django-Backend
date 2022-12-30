@@ -64,6 +64,8 @@ urlpatterns = [
     path('Add-Driver/<int:id>',views.Add_Driver),
     path('saved-destination/<str:user>',views.saved_destination),
     path('add-saved-destination/',views.add_saved_destination),
+    path('driver-stats/<str:UId>',views.Driver_Statastics),
+    path('driver-earning/<str:UId>/<str:date>/<int:earnings>',views.Driver_Earning),
 
       
 
