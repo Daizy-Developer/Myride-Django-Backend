@@ -60,6 +60,12 @@ urlpatterns = [
     path('User-Message',views.UserMessage),
     path("Location/<int:id>/<str:pickup_location_lat>/<str:pickup_location_long>/<str:drop_location_lat>/<str:drop_location_long>",views.Location),
     path('customer-list',  views.customer_lists),
+    path("offer_ride_post/",views.Ride_Offer_Post),
+    path('Add-Driver/<int:id>',views.Add_Driver),
+    path('saved-destination/<str:user>',views.saved_destination),
+    path('add-saved-destination/',views.add_saved_destination),
+
+      
 
 
     ]

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashboard.models import Driver ,User , Promo_Code , All_Ride_Historie,Ride_offer,Driver_offer,User_Message,Driver_Message
+from dashboard.models import Driver ,User , Promo_Code , All_Ride_Historie,Ride_offer,Driver_offer,User_Message,Driver_Message,Saved_Destination
 
 
 
@@ -100,4 +100,14 @@ class User_Messages_Serializer(serializers.ModelSerializer):
 class Driver_Messages_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Driver_Message
+        fields = '__all__'
+
+class Add_Driver_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = All_Ride_Historie
+        fields = ["Driver_Uid"]
+
+class Saved_Destination_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Saved_Destination
         fields = '__all__'

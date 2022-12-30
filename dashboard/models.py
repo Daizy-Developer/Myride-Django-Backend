@@ -119,6 +119,8 @@ class Ride_offer(models.Model):
     pickup_location_long = models.DecimalField(max_digits = 40 ,decimal_places=8)
     drop_location_lat =  models.DecimalField(max_digits = 40 ,decimal_places=8)
     drop_location_long = models.DecimalField(max_digits = 40 ,decimal_places=8)
+    Address = models.CharField(max_length=500)
+    Drop_Address = models.CharField(max_length=500)
     Driver_offer = models.IntegerField()
     Date = models.DateField(null=True,blank=True) #Remove Null
     Ride_Time =  models.TimeField(null=True,blank=True) #Remove Null
@@ -158,3 +160,11 @@ class Driver_Message(models.Model):
     reciever = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     message = models.TextField()
     Time =  models.TimeField()
+
+class Saved_Destination(models.Model):
+    user = models.CharField(max_length=100)
+    name =  models.CharField(max_length=50)
+    lat = models.DecimalField(max_digits = 40 ,decimal_places=8)
+    long = models.DecimalField(max_digits = 40 ,decimal_places=8)
+    address = models.CharField(max_length=400)
+
