@@ -41,8 +41,6 @@ urlpatterns = [
     path("Bike_Fare/<int:Km>",views.Get_Bike_Fare),
     path("Update_Fare/<int:id>/<str:Car>/<int:Km>/",views.Update_Fare),
     path("Kms/<int:id>",views.Km),
-    path('bike-ride',views.Bike_Ride, name="New Ride"),
-    path('car-ride',views.Car_Ride, name="New Ride"),
     path("offer_ride_get/<str:User_Uid>/<str:Date>/<str:Ride_Time>",views.Ride_Offer_Get),
     path("driver_offer_ride/<int:Ride_id>/<str:UId>/<int:Offer>/",views.Driver_Ride_Offer_Post),
     path("driver_offer_ride/<int:Ride_id>",views.Driver_Ride_Offer_Get),
