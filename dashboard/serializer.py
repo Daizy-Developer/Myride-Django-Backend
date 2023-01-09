@@ -63,11 +63,11 @@ class Offer_Price_Post(serializers.ModelSerializer):
 class Ride_Bike_Serializer(serializers.ModelSerializer):
     class Meta:
         model = All_Ride_Historie
-        fields = ['User_Uid','Ride','Date','Ride_Time','pickup_location_lat','pickup_location_long','drop_location_lat','drop_location_long','Address','Drop_Address','Km','Fare','User_ratings','Driver_ratings','Cancel_Ride','status']
+        fields = ['id','User_Uid','Ride','Date','Ride_Time','pickup_location_lat','pickup_location_long','drop_location_lat','drop_location_long','Address','Drop_Address','Km','Fare','User_ratings','Driver_ratings','Cancel_Ride','status']
 class Ride_Car_Serializer(serializers.ModelSerializer):
     class Meta:
         model = All_Ride_Historie
-        fields = ['User_Uid','Ride','Carpooling_User_1_Uid','Carpooling_User_2_Uid','Carpooling_User_3_Uid','Date','Ride_Time','pickup_location_lat','pickup_location_long','drop_location_lat','drop_location_long','Address','Drop_Address','Km','Fare','User_ratings','Driver_ratings','Cancel_Ride','status']
+        fields = ['id','User_Uid','Ride','Carpooling_User_1_Uid','Carpooling_User_2_Uid','Carpooling_User_3_Uid','Date','Ride_Time','pickup_location_lat','pickup_location_long','drop_location_lat','drop_location_long','Address','Drop_Address','Km','Fare','User_ratings','Driver_ratings','Cancel_Ride','status']
 
 class Add_Carpool_Serializer(serializers.ModelSerializer):
     class Meta:

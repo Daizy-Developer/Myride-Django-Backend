@@ -552,24 +552,32 @@ def New_Ride(request,vehicle):
         elif vehicle=='Bike':
             serializer = Ride_Bike_Serializer(data=request.data)
         # request_body = json.dumps(request.data)
-        Driver_Uid = request.data['Driver_Uid']
+
+        
+
         Date = request.data['Date']
         Fare = request.data['Fare']
-
-        if serializer.is_valid():
-            driver_ = Driver.objects.filter(UId=Driver_Uid).first()
-            driver_pk =  driver_.id
-            serializer1 = Earning_Serializer(data={
+        if 'Driver_Uid' in request.data:
+            if serializer.is_valid():
+                Driver_Uid = request.data['Driver_Uid']
+                driver_ = Driver.objects.filter(UId=Driver_Uid).first()
+                driver_pk =  driver_.id
+                serializer1 = Earning_Serializer(data={
                 "date": Date,
                 "earnings": Fare,
                 "driver":driver_pk
             })
             
-            if serializer1.is_valid():
-                serializer1.save()    
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                if serializer1.is_valid():
+                    serializer1.save()    
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
 @api_view(['POST'])
 def New_Delivery(request):
     if request.method == 'POST':
