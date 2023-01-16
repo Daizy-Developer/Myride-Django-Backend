@@ -704,13 +704,16 @@ def Add_Driver(request,id):
     except All_Ride_Historie.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'PATCH':
-        serializer =  Add_Driver_Serializer(snippet,data=request.data)
+        Driver_Uid = request.data['Driver_Uid']
+        serializer =  Add_Driver_Serializer(snippet,data={
+            "Driver_Uid":Driver_Uid,
+            "status":"ARRIVED"
+        })
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 @api_view(['GET'])
 def saved_destination(request,user):
     if request.method == 'GET':

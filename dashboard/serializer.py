@@ -105,7 +105,7 @@ class Driver_Messages_Serializer(serializers.ModelSerializer):
 class Add_Driver_Serializer(serializers.ModelSerializer):
     class Meta:
         model = All_Ride_Historie
-        fields = ["Driver_Uid"]
+        fields = ["Driver_Uid","status"]
 
 class Saved_Destination_Serializer(serializers.ModelSerializer):
     class Meta:
