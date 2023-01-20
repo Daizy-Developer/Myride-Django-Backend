@@ -63,7 +63,8 @@ urlpatterns = [
     path('saved-destination/<str:user>',views.saved_destination),
     path('add-saved-destination/',views.add_saved_destination),
     path('driver-stats/<str:UId>',views.Driver_Statastics),
-
+    path('driver-image/<str:UId>/',views.Driver_Img.as_view({'patch': 'update'})),
+    path('user-image/<str:UId>/',views.User_Img.as_view({'patch': 'update'})),
       
 
 

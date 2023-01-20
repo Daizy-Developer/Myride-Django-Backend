@@ -116,3 +116,16 @@ class Earning_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Earning
         fields = '__all__'
+
+class Driver_Image_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Driver
+        fields = ['driver_image']
+        file = serializers.FileField(use_url=False)
+
+class User_Image_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['user_image']
+        file = serializers.FileField(use_url=False)
+

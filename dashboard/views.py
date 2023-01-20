@@ -11,7 +11,9 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from dashboard.serializer import Saved_Destination_Serializer, Driver_Rating_Serializer, Driver_Serializer,User_Serializer,User_Rating_Serializer,Driver_Rating_Serializer,All_Ride_Historie_Serializer,Status_Ride_Serializer,Cancel_Ride_Serializer,Fare_S,Km_S,Ride_Bike_Serializer,Ride_Car_Serializer,Offer_Price_Get ,Offer_Price_Post,Add_Carpool_Serializer,Driver_Offer_Serializer,Driver_Details_Serializer,Delivery_Serailizer,User_Message,Driver_Message,User_Messages_Serializer,Driver_Messages_Serializer,Add_Driver_Serializer,Add_Driver_Serializer ,Earning_Serializer
+from rest_framework import viewsets
+from rest_framework.parsers import FormParser,MultiPartParser
+from dashboard.serializer import Saved_Destination_Serializer, Driver_Rating_Serializer, Driver_Serializer,User_Serializer,User_Rating_Serializer,Driver_Rating_Serializer,All_Ride_Historie_Serializer,Status_Ride_Serializer,Cancel_Ride_Serializer,Fare_S,Km_S,Ride_Bike_Serializer,Ride_Car_Serializer,Offer_Price_Get ,Offer_Price_Post,Add_Carpool_Serializer,Driver_Offer_Serializer,Driver_Details_Serializer,Delivery_Serailizer,User_Message,Driver_Message,User_Messages_Serializer,Driver_Messages_Serializer,Add_Driver_Serializer,Add_Driver_Serializer ,Earning_Serializer,Driver_Image_Serializer,User_Image_Serializer
 from  dashboard.forms import DriverForms,UserForms
 import geopy.distance
 import polyline
@@ -707,7 +709,7 @@ def Add_Driver(request,id):
         Driver_Uid = request.data['Driver_Uid']
         serializer =  Add_Driver_Serializer(snippet,data={
             "Driver_Uid":Driver_Uid,
-            "status":"ARRIVED"
+            "status":"ARRIVING"
         })
         if serializer.is_valid():
             serializer.save()
@@ -743,5 +745,25 @@ def Driver_Statastics(request,UId):
 
 
 
+class Driver_Img(viewsets.ModelViewSet):
+    lookup_field = 'UId'
+    serializer_class = Driver_Image_Serializer
+    parser_classes = (MultiPartParser,FormParser)
 
-    
+    def get_queryset(self):
+        return Driver.objects.filter(UId=self.kwargs['UId'])
+    def perform_update(self, serializer):
+        serializer.save(driver_image=self.request.data.get('driver_image'))
+
+class User_Img(viewsets.ModelViewSet):
+    lookup_field = 'UId'
+    serializer_class = User_Image_Serializer
+    parser_classes = (MultiPartParser,FormParser)
+
+    def get_queryset(self):
+        return User.objects.filter(UId=self.kwargs['UId'])
+    def perform_update(self, serializer):
+        serializer.save(user_image=self.request.data.get('user_image'))
+
+
+
