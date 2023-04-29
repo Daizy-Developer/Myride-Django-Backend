@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
     {%load static %}
-    <link rel="stylesheet" href="{%static 'style.css'%}"> 
+    <link rel="stylesheet" href="{%static 'styles.css'%}"> 
     
 
 
@@ -21,106 +21,85 @@
     {% block head %}{% endblock head %}
 </head>
 <body>
-    <nav class="up-nav">
-        <ul>
-          <li>
-            <h3 class="logo" style="margin-left: 2%; margin-top: 1%;">Myride</h3>
-          </li>
-        </ul>
-      </nav>
+  {%if user.is_authenticated%}
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark main-menu" style="width: 15%;height: 100%;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-4">Myride</span>
+    </a>
+    <hr>
     
-      <nav class="main-menu">
-        <ul>
-          <li>
-            <a href="/">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-speedometer fa fa-2x" viewBox="0 0 16 16">
-                <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
-                <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
-              </svg>
-              <span class="nav-text">
-                Dashboard
-              </span>
-            </a>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/" class="nav-link text-white " aria-current="page">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+          Dashboard
+        </a>
+      </li>
+      <li>
+      
     
-          </li>
-          <li class="has-subnav">
-            <a href="/user">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class=" bi-people fa-2x fa"
-                viewBox="0 0 16 16">
-                <path
-                  d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
-              </svg> <span class="nav-text">
-                Users
-              </span>
-            </a>
-    
-          </li>
-          <li class="has-subnav">
-            <a href="/promocode">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="2em" width="2em" class=" fa-2x fa bi-people bi-card-checklist" viewBox="0 0 16 16">
-                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
-              </svg>
-              
-              <span class="nav-text">
-                Promocodes
-              </span>
-            </a>
-    
-          </li>
-          <li class="has-subnav">
-            <a href="/Ride-logs">
-              <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="fa-2x fa  bi-journal-bookmark" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M6 8V1h1v6.117L8.743 6.07a.5.5 0 0 1 .514 0L11 7.117V1h1v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8z"/>
-                <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
-                <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
-              </svg>
-              <span class="nav-text">
-                Ride Logs
-              </span>
-            </a>
-    
-          </li>
-          <li class="has-subnav">
-            <a href="/fare-management">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class=" fa-2x fa bi bi-currency-dollar" viewBox="0 0 16 16">
-                <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
-              </svg>
-              <span class="nav-text">
-                Fare Management
-              </span>
-            </a>
-    
-          </li>
-    
-        </ul>
-    
-        <ul class="logout">
-          <li>
-            <a href="/logout">
-              <i class="fa fa-power-off fa-2x"></i>
-              <span class="nav-text">
-                Logout
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-  
-      <main class="max-w-full h-full flex relative overflow-y-hidden">
-        <!-- Container -->
-        <div class="h-full w-full m-4 flex flex-wrap items-start justify-start rounded-tl grid-flow-col auto-cols-max gap-4 overflow-y-scroll">
-          <!-- Container -->
-          {% block body %}
-          {% endblock body %}
-          {%load static %}
-          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
-          
-      </main>
-
+        <a href="/user" class="nav-link text-white">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+          User
+        </a>
+      </li>
+      <li>
+        <a href="/Ride-logs" class="nav-link text-white">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+          Ride Logs
+        </a>
+      </li>
+      <li>
+        <a href="/fare-management" class="nav-link text-white">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+          Fare Management
+        </a>
+      </li>
+     
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIUAAACFCAMAAABCBMsOAAAAMFBMVEXk5ueutLfEyMrn6eqrsbSyt7rh4+S3vL+nrrHBxcjIzM7R1NbN0NLd3+HY2927wMLuh9A5AAAC30lEQVR4nO2a25arIAxA0XAVwf//2wE6p/XMWCGUoLMW+6lv3SskURIZGwwGg8FgMBgMBoPB3wYAmIzEHxcpMLduSkwBoYyV7AIRkLPQevoH11ytvQMCXr0MXiZGdvQAt/FfDsmDL93iAet0LBE9RKdwgPl9GDu07aABUr0NxHc4lg4aOYkeGpCXCIdCrAFviuNnNFZKDViKJIKGI7RwhRKhp9MFA0SpBGGGgj1tFL3OpDwUwcLQBAPW4qwgDAYiK5IFTWZ4VCiCBoUFGKSF9gQagJSYJor8dIgyfaDaSyArJCHbWxi0BEViKLQFRa3iukWyaJ+eEi0xTdstLFR7C3yJEFiUv+CQxgIvQWGBrxGC7LxHpVZ0LYJryT06+D2eZvd4sjPASpC8hd/jjQ/99juRvIPf4yaAuiAGC4IKSaBuiDPRdRkXDKpQMCjv4pTTnFtMUTATJdLBVuF0jXjyeotJY5EGvUQgdyhdJtC3mMazzGZCdVvUxC3NoQefupzG0+N4YzX33FglD7kI/YoI11rZK9aZcZNp0iZTXLbJTB7PZe41W930/9J5b7/xTu6kegiEv7fLJuLickc4mM1YH2XoHZhflOD6TaVqHlOE9IAg1IUKf3TWOR/lImZP4wHgYmlmDHZBMe1FAOz2vm0fi3C1Nm1iAKuoGCjFtXszD2ALMgx7jzafIQCzVXF4ekwN4gHu4LGF9fjwjQPY/KlDRH/00gHuo8PYUx8O5PX4FG5qJc7fL7EalR+plNw8MBo197XsJycVoEdMslle7uBYDQoJ7CW68FJcAWK2AkvL6vgPUS7RsE/8hBdvK2qWU+UahV0UNkKJoHH5eSSLsjOpWE3hNAq6Rs0eBGlRstQjdogaPp8V1KEoyQzEeLcenYuFpC2QB7nxNH1uJjJHQtyxnmQeatTN4kGmSmq+LKixOE8M3yM5c0tOWDXvwmn7BGvmLmSGs9CHU4fBYDAY/B2+AHCKJT2UsNePAAAAAElFTkSuQmCC" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong> {{ user.username }}</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+        <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+      </ul>
     </div>
+  </div>   
+  
+  <main class="max-w-full h-full flex relative overflow-y-hidden"  style="position:absolute;left: 15%;">
+    <!-- Container -->
+      <!-- Container -->
+      {% block body %}
+      {% endblock body %}
+      <script>
+        const currentUrl = window.location.href;
+        console.log(currentUrl);
+        const navLinks = document.querySelectorAll(".nav-link");
+        
+        // Loop over each navLink and add the "active" class if the href matches the current URL
+        navLinks.forEach(navLink => {
+          if (currentUrl.endsWith(navLink.href)) {
+            navLink.classList.add("active");
+          }
+        });
+        
+    </script>
+      {%load static %}
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
-  </div>
+      
+  </main>
+  {% else %}
+  <h1 class="font-extrabold">400 Bad Request </h1>
+  {%endif%}
+
+  
+     
+
+   
 </body>
 </html>
